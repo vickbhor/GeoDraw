@@ -23,7 +23,6 @@
   <p class="empty" *ngIf="(geoService.items$ | async)?.length === 0">No geometry yet. Draw something on the map!</p>
 </aside>
 
-<!-- rendered outside the scrollable list, position: fixed, so it's never clipped or off-screen -->
 <div class="menu" *ngIf="openMenuId" [style.top.px]="menuTop" [style.left.px]="menuLeft" (click)="$event.stopPropagation()">
   <ng-container *ngFor="let item of geoService.items$ | async">
     <ng-container *ngIf="item._id === openMenuId">
@@ -32,4 +31,42 @@
       <button class="danger" (click)="remove(item)">🗑 Delete</button>
     </ng-container>
   </ng-container>
+</div>
+
+<div class="details-modal" *ngIf="detailsItem" (click)="closeDetails()">
+  <div class="details-card" (click)="$event.stopPropagation()">
+    <div class="details-header">
+      <span class="dot" [style.background]="detailsItem.color"></span>
+      <h3>{{ detailsItem.name }}</h3>
+      <button class="close" (click)="closeDetails()">✖</button>
+    </div>
+
+    <dl>
+      <dt>Type</dt>
+      <dd>{{ detailsItem.type }}</dd>
+
+      <dt>Color</dt>
+      <dd><span class="dot" [style.background]="detailsItem.color"></span> {{ detailsItem.color }}</dd>
+
+      <ng-container *ngIf="detailsMeasurements.length">
+        <dt>{{ detailsItem.type === 'Polygon' ? 'Perimeter' : 'Length' }}</dt>
+        <dd>{{ detailsMeasurements.length }}</dd>
+      </ng-container>
+
+      <ng-container *ngIf="detailsMeasurements.area">
+        <dt>Area</dt>
+        <dd>{{ detailsMeasurements.area }}</dd>
+      </ng-container>
+
+      <ng-container *ngIf="detailsItem.createdAt">
+        <dt>Created</dt>
+        <dd>{{ detailsItem.createdAt | date:'medium' }}</dd>
+      </ng-container>
+    </dl>
+
+    <div class="coords-block">
+      <span class="coords-label">Coordinates (GeoJSON)</span>
+      <pre>{{ detailsCoordinates }}</pre>
+    </div>
+  </div>
 </div>

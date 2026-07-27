@@ -13,7 +13,7 @@
       autofocus
       (keyup.enter)="nameInput.trim() && confirmSave()"
     />
-    <label>Color: <input type="color" [(ngModel)]="colorInput" /></label>
+    <label>Color: <input type="color" [ngModel]="colorInput" (ngModelChange)="onColorChange($event)" /></label>
     <div class="actions">
       <button (click)="cancelSave()">Cancel</button>
       <button (click)="confirmSave()" class="primary" [disabled]="!nameInput.trim()">Save</button>

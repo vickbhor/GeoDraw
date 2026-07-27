@@ -3,3 +3,7 @@ table { width: 100%; border-collapse: collapse; }
 th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid #eaecf0; font-size: 0.9rem; }
 th { color: #667085; font-weight: 600; }
 .swatch { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: middle; margin-right: 6px; }
+.coords {
+  margin: 0; max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; color: #344054; cursor: help;
+}

@@ -1,4 +1,6 @@
+:host { display: block; width: 100%; height: 100%; position: relative; }
 .map-container { width: 100%; height: 100%; }
+.map-container ::ng-deep .ol-viewport { touch-action: none; }
 .import-btn {
   position: absolute; top: 12px; right: 12px; z-index: 1000;
   background: #fff; border: 1px solid #d0d5dd; padding: 8px 14px; border-radius: 6px; cursor: pointer;

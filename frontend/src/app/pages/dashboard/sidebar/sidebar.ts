@@ -2,6 +2,7 @@ import { Component, HostListener, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Geometry, GeoItem } from '../../../core/geometry';
+import { getMeasurements, getCoordinatesText, GeoMeasurements } from '../../../core/geo-utils';
 
 @Component({
   selector: 'app-sidebar',
@@ -20,6 +21,10 @@ export class Sidebar {
   editName = '';
   editColor = '#2F6B4F';
 
+  detailsItem: GeoItem | null = null;
+  detailsMeasurements: GeoMeasurements = {};
+  detailsCoordinates = '';
+
   toggleMenu(id: string, event: MouseEvent) {
     event.stopPropagation();
     if (this.openMenuId === id) {
@@ -30,7 +35,6 @@ export class Sidebar {
     const menuWidth = 150;
     const menuHeight = 132;
 
-    // right-align to the button, flip upward if it would overflow the bottom of the viewport
     let top = rect.bottom + 4;
     let left = rect.right - menuWidth;
 
@@ -52,6 +56,13 @@ export class Sidebar {
   view(item: GeoItem) {
     this.openMenuId = null;
     window.dispatchEvent(new CustomEvent('geo-zoom-to', { detail: item._id }));
+    this.detailsItem = item;
+    this.detailsMeasurements = getMeasurements(item);
+    this.detailsCoordinates = getCoordinatesText(item);
+  }
+
+  closeDetails() {
+    this.detailsItem = null;
   }
 
   startEdit(item: GeoItem) {

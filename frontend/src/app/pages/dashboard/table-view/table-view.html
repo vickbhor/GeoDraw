@@ -5,6 +5,8 @@
         <th>Name</th>
         <th>Type</th>
         <th>Color</th>
+        <th>Length / Area</th>
+        <th>Coordinates</th>
         <th>Created</th>
       </tr>
     </thead>
@@ -13,6 +15,8 @@
         <td>{{ item.name }}</td>
         <td>{{ item.type }}</td>
         <td><span class="swatch" [style.background]="item.color"></span> {{ item.color }}</td>
+        <td>{{ measurementLabel(item) }}</td>
+        <td><pre class="coords" [title]="coordinatesText(item)">{{ coordinatesText(item) }}</pre></td>
         <td>{{ item.createdAt | date:'short' }}</td>
       </tr>
     </tbody>

@@ -55,3 +55,31 @@ li { display: flex; align-items: center; gap: 8px; padding: 9px 4px; border-bott
 }
 .menu button:hover { background: #f9fafb; }
 .menu button.danger { color: #B2503B; }
+
+.details-modal {
+  position: fixed; inset: 0; background: rgba(16, 24, 40, 0.4);
+  display: flex; align-items: center; justify-content: center; z-index: 4000;
+}
+.details-card {
+  background: #fff; padding: 22px; border-radius: 12px; width: 340px; max-height: 80vh;
+  overflow-y: auto; display: flex; flex-direction: column; gap: 14px;
+  box-shadow: 0 20px 60px rgba(16, 24, 40, 0.2);
+}
+.details-header { display: flex; align-items: center; gap: 8px; }
+.details-header h3 {
+  font-family: 'Fraunces', serif; font-weight: 600; margin: 0; color: #101828;
+  flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.details-header .close {
+  background: none; border: none; cursor: pointer; font-size: 1rem; color: #667085; padding: 2px 6px;
+}
+.details-card dl { display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; margin: 0; }
+.details-card dt { font-size: 0.78rem; color: #667085; font-weight: 500; }
+.details-card dd { margin: 0; font-size: 0.88rem; color: #101828; display: flex; align-items: center; gap: 6px; }
+.coords-block { display: flex; flex-direction: column; gap: 6px; }
+.coords-label { font-size: 0.78rem; color: #667085; font-weight: 500; }
+.coords-block pre {
+  margin: 0; background: #f9fafb; border: 1px solid #eaecf0; border-radius: 8px; padding: 10px 12px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.76rem; color: #344054;
+  max-height: 160px; overflow: auto; white-space: pre-wrap; word-break: break-all;
+}
