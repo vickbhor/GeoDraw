@@ -91,3 +91,14 @@ button[type="submit"]:hover { background: #275A42; }
 .error { color: #B2503B; font-size: 0.85rem; margin: 0; }
 .toggle { font-size: 0.85rem; color: #2F6B4F; cursor: pointer; text-align: center; margin-top: 4px; }
 .toggle:hover { text-decoration: underline; }
+
+/* SUCCESS CLASS */
+.success { 
+  color: #2F6B4F; 
+  background-color: #e6ffe6; 
+  padding: 8px; 
+  border-radius: 6px; 
+  font-size: 0.85rem; 
+  margin: 0; 
+  text-align: center;
+}

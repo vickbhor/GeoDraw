@@ -2,6 +2,9 @@ import {
   RBush
 } from "./chunk-6MQFOTFN.js";
 import {
+  Layer_default
+} from "./chunk-VWY2MTLJ.js";
+import {
   Circle_default,
   Fill_default,
   Icon_default,
@@ -11,10 +14,7 @@ import {
   Text_default,
   createDefaultStyle,
   toFunction
-} from "./chunk-SK5BETHF.js";
-import {
-  Layer_default
-} from "./chunk-T3KK4V72.js";
+} from "./chunk-GD6ILRFU.js";
 import {
   NO_COLOR,
   fromString,
@@ -22,13 +22,13 @@ import {
   rgbaToLcha,
   toString,
   withAlpha
-} from "./chunk-3M4LGQDV.js";
+} from "./chunk-KUK723HR.js";
 import {
   toSize
-} from "./chunk-IW7RK3GW.js";
+} from "./chunk-6HSFZIRB.js";
 import {
   ascending
-} from "./chunk-R2H6PGDU.js";
+} from "./chunk-GXKPAXCA.js";
 import {
   isEmpty
 } from "./chunk-HXCEJZED.js";
@@ -2387,4 +2387,4 @@ var BaseVector_default = BaseVectorLayer;
 export {
   BaseVector_default
 };
-//# sourceMappingURL=chunk-6ME5P64H.js.map
+//# sourceMappingURL=chunk-4ALTNLGE.js.map

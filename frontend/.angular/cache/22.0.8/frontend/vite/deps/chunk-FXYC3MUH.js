@@ -1,19 +1,15 @@
 import {
-  intersectsLinearRingArray,
-  linearRingsContainsXY
-} from "./chunk-ID7VRLHP.js";
-import {
   Point_default,
   SimpleGeometry_default,
   deflateCoordinates,
   deflateCoordinatesArray,
   inflateCoordinates,
   inflateCoordinatesArray
-} from "./chunk-Y5UOPBCW.js";
+} from "./chunk-KHIS6Q2D.js";
 import {
-  ascending,
-  extend
-} from "./chunk-R2H6PGDU.js";
+  intersectsLinearRingArray,
+  linearRingsContainsXY
+} from "./chunk-ID7VRLHP.js";
 import {
   closestSquaredDistanceXY,
   getCenter,
@@ -25,6 +21,10 @@ import {
   squaredDistance,
   squaredSegmentDistance
 } from "./chunk-6HE5LMMS.js";
+import {
+  ascending,
+  extend
+} from "./chunk-GXKPAXCA.js";
 
 // node_modules/ol/geom/flat/area.js
 function linearRing(flatCoordinates, offset2, end, stride) {
@@ -1148,4 +1148,4 @@ export {
   fromExtent,
   fromCircle
 };
-//# sourceMappingURL=chunk-3CE2V4G7.js.map
+//# sourceMappingURL=chunk-FXYC3MUH.js.map

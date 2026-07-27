@@ -2,7 +2,7 @@ import {
   asArray,
   asString,
   toString
-} from "./chunk-3M4LGQDV.js";
+} from "./chunk-KUK723HR.js";
 import {
   ImageState_default,
   WORKER_OFFSCREEN_CANVAS,
@@ -10,15 +10,17 @@ import {
   decodeFallback,
   getSharedCanvasContext2D,
   toSize
-} from "./chunk-IW7RK3GW.js";
+} from "./chunk-6HSFZIRB.js";
+import {
+  assert
+} from "./chunk-C3Y4LB4J.js";
 import {
   EventType_default,
   Object_default,
   Target_default,
   abstract,
-  assert,
   getUid
-} from "./chunk-R2H6PGDU.js";
+} from "./chunk-GXKPAXCA.js";
 import {
   clear
 } from "./chunk-HXCEJZED.js";
@@ -2935,4 +2937,4 @@ export {
   Style_default,
   Text_default
 };
-//# sourceMappingURL=chunk-SK5BETHF.js.map
+//# sourceMappingURL=chunk-GD6ILRFU.js.map

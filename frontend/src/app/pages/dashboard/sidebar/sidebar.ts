@@ -72,6 +72,15 @@ export class Sidebar {
     this.editColor = item.color;
   }
 
+  /** Rename/recolor happens here in the sidebar; reshaping the geometry itself
+   *  (dragging a point, or a polygon/line's vertices) happens on the map, so we
+   *  just hand off the id to app-map-view via the same window-event pattern
+   *  already used for "View" (geo-zoom-to). Only works while the Map tab is open. */
+  editShape(item: GeoItem) {
+    this.openMenuId = null;
+    window.dispatchEvent(new CustomEvent('geo-edit-shape', { detail: item._id }));
+  }
+
   saveEdit(item: GeoItem) {
     if (!this.editName.trim()) return;
     this.geoService.update(item._id!, { name: this.editName.trim(), color: this.editColor }).subscribe();

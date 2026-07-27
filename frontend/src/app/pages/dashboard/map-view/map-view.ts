@@ -1,16 +1,18 @@
-import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, OnChanges, Output, ViewChild, inject } from '@angular/core';
+import { ApplicationRef, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, OnChanges, Output, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import OlMap from 'ol/Map';
 import OlView from 'ol/View';
+import OlCollection from 'ol/Collection';
 import TileLayer from 'ol/layer/Tile';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import OSM from 'ol/source/OSM';
 import GeoJSON from 'ol/format/GeoJSON';
 import Feature, { FeatureLike } from 'ol/Feature';
-import { Draw } from 'ol/interaction';
+import Geom from 'ol/geom/Geometry';
+import { Draw, Modify } from 'ol/interaction';
 import { Style, Fill, Stroke, Circle as CircleStyle } from 'ol/style';
 import MultiPoint from 'ol/geom/MultiPoint';
 import { fromLonLat } from 'ol/proj';
@@ -30,6 +32,7 @@ const DEFAULT_COLOR = '#2F6B4F';
 })
 export class MapView implements OnInit, OnChanges, OnDestroy {
   geoService = inject(Geometry);
+  private appRef = inject(ApplicationRef);
 
   @Input() activeTool: ToolType = 'none';
   @Output() toolUsed = new EventEmitter<void>();
@@ -38,9 +41,11 @@ export class MapView implements OnInit, OnChanges, OnDestroy {
   private map!: OlMap;
   private drawnSource = new VectorSource();
   private drawInteraction: Draw | null = null;
+  private modifyInteraction: Modify | null = null;
   private featureById = new Map<string, Feature>();
   private geojsonFormat = new GeoJSON();
   private zoomListener = (e: Event) => this.zoomTo((e as CustomEvent).detail);
+  private editShapeListener = (e: Event) => this.startShapeEdit((e as CustomEvent).detail);
 
   pendingFeature: Feature | null = null;
   pendingType: GeomType | null = null;
@@ -48,19 +53,30 @@ export class MapView implements OnInit, OnChanges, OnDestroy {
   nameInput = '';
   colorInput = DEFAULT_COLOR;
 
+  // Shape-editing (drag vertices of a polygon/line, or move a point)
+  editingId: string | null = null;
+  editingType: GeomType | null = null;
+  private editingFeature: Feature | null = null;
+  private editingOriginalGeom: Geom | null = null;
+
   ngOnInit() {
     this.initMap();
     this.geoService.items$.subscribe(items => this.renderAll(items));
     window.addEventListener('geo-zoom-to', this.zoomListener);
+    window.addEventListener('geo-edit-shape', this.editShapeListener);
   }
 
   ngOnChanges() {
     if (!this.map) return;
+    // Switching tools (or re-selecting the current one) should back out of an
+    // in-progress shape edit rather than leaving it dangling underneath.
+    if (this.editingId) this.cancelShapeEdit();
     this.toggleDrawTool();
   }
 
   ngOnDestroy() {
     window.removeEventListener('geo-zoom-to', this.zoomListener);
+    window.removeEventListener('geo-edit-shape', this.editShapeListener);
     this.map?.setTarget(undefined);
   }
 
@@ -169,6 +185,14 @@ export class MapView implements OnInit, OnChanges, OnDestroy {
       // Feature is inserted into drawnSource right after this handler returns,
       // so it's visible on the map immediately — the name prompt appears alongside it,
       // not before it.
+
+      // This app has no zone.js (Angular 22 zoneless build), and OpenLayers fires
+      // 'drawend' as a plain DOM/canvas event outside Angular's own event system.
+      // Without this, `showNameModal` flips to true internally but nothing re-renders
+      // until some *other* Angular-bound click happens (e.g. tapping a layer in the
+      // sidebar) — which is why the prompt used to seem to appear only "when I tap
+      // another shape" instead of immediately after finishing the draw.
+      this.appRef.tick();
     });
 
     this.map.addInteraction(this.drawInteraction);
@@ -216,6 +240,67 @@ export class MapView implements OnInit, OnChanges, OnDestroy {
     this.pendingFeature = null;
     this.pendingType = null;
     this.showNameModal = false;
+  }
+
+  /** Enter drag-to-reshape mode for one existing shape: move a Point, or drag a Line/Polygon's vertices. */
+  startShapeEdit(id: string) {
+    const feature = this.featureById.get(id);
+    if (!feature || !feature.getGeometry()) return;
+
+    if (this.editingId) this.cancelShapeEdit();
+    this.toolUsed.emit(); // make sure no draw tool is active while editing
+
+    this.editingId = id;
+    this.editingType = feature.getGeometry()!.getType() as GeomType;
+    this.editingFeature = feature;
+    this.editingOriginalGeom = feature.getGeometry()!.clone();
+
+    this.modifyInteraction = new Modify({ features: new OlCollection([feature]) });
+    this.modifyInteraction.on('modifyend', () => this.appRef.tick());
+    this.map.addInteraction(this.modifyInteraction);
+    this.appRef.tick();
+  }
+
+  saveShapeEdit() {
+    if (!this.editingFeature || !this.editingId) return;
+
+    const geojson = this.geojsonFormat.writeFeatureObject(this.editingFeature, {
+      dataProjection: 'EPSG:4326',
+      featureProjection: this.map.getView().getProjection()
+    });
+
+    const id = this.editingId;
+    const revertGeom = this.editingOriginalGeom;
+    const feature = this.editingFeature;
+
+    this.geoService.update(id, { geojson }).subscribe({
+      error: () => {
+        alert('Could not save the reshaped geometry. Please try again.');
+        if (revertGeom) feature.setGeometry(revertGeom);
+        this.appRef.tick();
+      }
+    });
+
+    this.stopShapeEdit();
+  }
+
+  cancelShapeEdit() {
+    if (this.editingFeature && this.editingOriginalGeom) {
+      this.editingFeature.setGeometry(this.editingOriginalGeom.clone());
+    }
+    this.stopShapeEdit();
+  }
+
+  private stopShapeEdit() {
+    if (this.modifyInteraction) {
+      this.map.removeInteraction(this.modifyInteraction);
+      this.modifyInteraction = null;
+    }
+    this.editingId = null;
+    this.editingType = null;
+    this.editingFeature = null;
+    this.editingOriginalGeom = null;
+    this.appRef.tick();
   }
 
   private renderAll(items: GeoItem[]) {

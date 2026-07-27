@@ -27,7 +27,8 @@
   <ng-container *ngFor="let item of geoService.items$ | async">
     <ng-container *ngIf="item._id === openMenuId">
       <button (click)="view(item)">👁 View</button>
-      <button (click)="startEdit(item)">✏ Edit</button>
+      <button (click)="startEdit(item)">✏ Rename</button>
+      <button (click)="editShape(item)">◈ Edit shape</button>
       <button class="danger" (click)="remove(item)">🗑 Delete</button>
     </ng-container>
   </ng-container>

@@ -20,10 +20,12 @@
     <input [(ngModel)]="email" name="email" type="email" placeholder="Email" required />
     <input [(ngModel)]="password" name="password" type="password" placeholder="Password" required />
 
+    <!-- Naya Success aur Error Message -->
+    <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
     <p class="error" *ngIf="error">{{ error }}</p>
 
     <button type="submit">{{ isRegisterMode ? 'Register' : 'Sign in' }}</button>
-    <p class="toggle" (click)="isRegisterMode = !isRegisterMode">
+    <p class="toggle" (click)="toggleMode()">
       {{ isRegisterMode ? 'Already have an account? Sign in' : "No account? Register" }}
     </p>
   </form>

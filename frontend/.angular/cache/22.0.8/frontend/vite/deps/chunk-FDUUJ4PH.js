@@ -3,10 +3,7 @@ import {
   SimpleGeometry_default,
   deflateCoordinates,
   inflateCoordinates
-} from "./chunk-Y5UOPBCW.js";
-import {
-  extend
-} from "./chunk-R2H6PGDU.js";
+} from "./chunk-KHIS6Q2D.js";
 import {
   closestSquaredDistanceXY,
   containsXY
@@ -14,6 +11,9 @@ import {
 import {
   squaredDistance
 } from "./chunk-6HE5LMMS.js";
+import {
+  extend
+} from "./chunk-GXKPAXCA.js";
 
 // node_modules/ol/geom/MultiPoint.js
 var MultiPoint = class _MultiPoint extends SimpleGeometry_default {
@@ -195,4 +195,4 @@ var MultiPoint_default = MultiPoint;
 export {
   MultiPoint_default
 };
-//# sourceMappingURL=chunk-SMOETV54.js.map
+//# sourceMappingURL=chunk-FDUUJ4PH.js.map

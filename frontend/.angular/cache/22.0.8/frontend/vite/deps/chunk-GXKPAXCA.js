@@ -706,13 +706,6 @@ var BaseObject = class extends Observable_default {
 };
 var Object_default = BaseObject;
 
-// node_modules/ol/asserts.js
-function assert(assertion, errorMessage) {
-  if (!assertion) {
-    throw new Error(errorMessage);
-  }
-}
-
 export {
   ObjectEventType_default,
   listen,
@@ -738,7 +731,6 @@ export {
   Observable_default,
   abstract,
   getUid,
-  Object_default,
-  assert
+  Object_default
 };
-//# sourceMappingURL=chunk-R2H6PGDU.js.map
+//# sourceMappingURL=chunk-GXKPAXCA.js.map

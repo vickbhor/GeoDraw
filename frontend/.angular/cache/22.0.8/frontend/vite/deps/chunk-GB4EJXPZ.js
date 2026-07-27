@@ -1,7 +1,7 @@
 import {
   Event_default,
   Object_default
-} from "./chunk-R2H6PGDU.js";
+} from "./chunk-GXKPAXCA.js";
 
 // node_modules/ol/CollectionEventType.js
 var CollectionEventType_default = {
@@ -246,6 +246,7 @@ var Collection_default = Collection;
 
 export {
   CollectionEventType_default,
+  CollectionEvent,
   Collection_default
 };
-//# sourceMappingURL=chunk-UO2MFT2B.js.map
+//# sourceMappingURL=chunk-GB4EJXPZ.js.map
