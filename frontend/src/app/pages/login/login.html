@@ -1,0 +1,30 @@
+<div class="login-wrap">
+  <svg class="contour-bg" viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M-50 400 C 150 300, 250 500, 400 400 S 650 300, 850 400" />
+    <path d="M-50 460 C 150 360, 250 560, 400 460 S 650 360, 850 460" />
+    <path d="M-50 340 C 150 240, 250 440, 400 340 S 650 240, 850 340" />
+    <path d="M-50 520 C 150 420, 250 620, 400 520 S 650 420, 850 520" />
+    <path d="M-50 280 C 150 180, 250 380, 400 280 S 650 180, 850 280" />
+  </svg>
+
+  <form class="login-card" (ngSubmit)="submit()">
+    <div class="brand">
+      <span class="brand-mark">◎</span>
+      <span class="brand-name">GeoDraw</span>
+    </div>
+    <p class="tagline">Sketch points, lines, and polygons on a real map, then organize and edit them like layers in a GIS.</p>
+
+    <h1>{{ isRegisterMode ? 'Create your account' : 'Welcome back' }}</h1>
+
+    <input *ngIf="isRegisterMode" [(ngModel)]="name" name="name" placeholder="Full name" required />
+    <input [(ngModel)]="email" name="email" type="email" placeholder="Email" required />
+    <input [(ngModel)]="password" name="password" type="password" placeholder="Password" required />
+
+    <p class="error" *ngIf="error">{{ error }}</p>
+
+    <button type="submit">{{ isRegisterMode ? 'Register' : 'Sign in' }}</button>
+    <p class="toggle" (click)="isRegisterMode = !isRegisterMode">
+      {{ isRegisterMode ? 'Already have an account? Sign in' : "No account? Register" }}
+    </p>
+  </form>
+</div>

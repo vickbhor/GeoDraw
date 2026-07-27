@@ -1,0 +1,35 @@
+<aside class="sidebar">
+  <h3>Layers</h3>
+
+  <ul>
+    <li *ngFor="let item of geoService.items$ | async">
+      <ng-container *ngIf="editingId !== item._id; else editRow">
+        <span class="dot" [style.background]="item.color"></span>
+        <span class="name">{{ item.name }}</span>
+        <span class="type">{{ item.type }}</span>
+
+        <button class="dots" (click)="toggleMenu(item._id!, $event)">⋮</button>
+      </ng-container>
+
+      <ng-template #editRow>
+        <input [(ngModel)]="editName" class="edit-name" (click)="$event.stopPropagation()" />
+        <input type="color" [(ngModel)]="editColor" (click)="$event.stopPropagation()" />
+        <button (click)="saveEdit(item)">✔</button>
+        <button (click)="cancelEdit()">✖</button>
+      </ng-template>
+    </li>
+  </ul>
+
+  <p class="empty" *ngIf="(geoService.items$ | async)?.length === 0">No geometry yet. Draw something on the map!</p>
+</aside>
+
+<!-- rendered outside the scrollable list, position: fixed, so it's never clipped or off-screen -->
+<div class="menu" *ngIf="openMenuId" [style.top.px]="menuTop" [style.left.px]="menuLeft" (click)="$event.stopPropagation()">
+  <ng-container *ngFor="let item of geoService.items$ | async">
+    <ng-container *ngIf="item._id === openMenuId">
+      <button (click)="view(item)">👁 View</button>
+      <button (click)="startEdit(item)">✏ Edit</button>
+      <button class="danger" (click)="remove(item)">🗑 Delete</button>
+    </ng-container>
+  </ng-container>
+</div>

@@ -1,0 +1,17 @@
+<div class="dashboard">
+  <app-header
+    [activeTool]="activeTool"
+    [view]="view"
+    (toolChange)="setTool($event)"
+    (viewChange)="setView($event)">
+  </app-header>
+
+  <div class="dashboard-body">
+    <app-sidebar></app-sidebar>
+
+    <div class="main-panel">
+      <app-map-view *ngIf="view === 'map'" [activeTool]="activeTool" (toolUsed)="activeTool = 'none'"></app-map-view>
+      <app-table-view *ngIf="view === 'table'"></app-table-view>
+    </div>
+  </div>
+</div>

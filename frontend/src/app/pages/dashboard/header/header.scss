@@ -1,0 +1,12 @@
+.topbar { display: flex; align-items: center; gap: 16px; padding: 10px 16px; background: #101828; color: #fff; }
+.brand {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 1.15rem;
+  margin-right: 24px;
+}
+.tools, .right { display: flex; gap: 8px; }
+.right { margin-left: auto; }
+button { background: #1D2939; color: #fff; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 0.9rem; transition: background 0.15s ease; }
+button:hover { background: #24344a; }
+button.active { background: #2F6B4F; }

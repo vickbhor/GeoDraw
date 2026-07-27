@@ -1,0 +1,22 @@
+<div id="map" class="map-container"></div>
+
+<button class="import-btn" (click)="triggerImport()">⬆ Import GeoJSON</button>
+<input #fileInput type="file" accept=".json,.geojson" hidden (change)="onFileSelected($event)" />
+
+<div class="name-modal" *ngIf="showNameModal">
+  <div class="name-modal-card">
+    <h3>Name this {{ pendingType }}</h3>
+    <input
+      [(ngModel)]="nameInput"
+      placeholder="e.g. Sector 12 boundary"
+      required
+      autofocus
+      (keyup.enter)="nameInput.trim() && confirmSave()"
+    />
+    <label>Color: <input type="color" [(ngModel)]="colorInput" /></label>
+    <div class="actions">
+      <button (click)="cancelSave()">Cancel</button>
+      <button (click)="confirmSave()" class="primary" [disabled]="!nameInput.trim()">Save</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+<header class="topbar">
+  <div class="brand">GeoDraw</div>
+
+  <div class="tools">
+    <button [class.active]="activeTool === 'point'" (click)="toolChange.emit('point')">📍 Point</button>
+    <button [class.active]="activeTool === 'line'" (click)="toolChange.emit('line')">📏 Line</button>
+    <button [class.active]="activeTool === 'polygon'" (click)="toolChange.emit('polygon')">🔺 Polygon</button>
+  </div>
+
+  <div class="right">
+    <button [class.active]="view === 'map'" (click)="viewChange.emit('map')">Map</button>
+    <button [class.active]="view === 'table'" (click)="viewChange.emit('table')">Table</button>
+    <button (click)="logout()">Logout</button>
+  </div>
+</header>
